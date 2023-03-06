@@ -4,7 +4,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.1'
-        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.0"
+        classpath 'com.google.code.gson:gson:2.9.0'
     }
 }
 

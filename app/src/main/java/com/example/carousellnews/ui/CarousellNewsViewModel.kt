@@ -5,19 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.carousellnews.models.Article
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 @HiltViewModel
 class CarousellNewsViewModel : ViewModel() {
     private val _articlesResponse: MutableLiveData<List<Article>> = MutableLiveData()
     val articlesResponse: LiveData<List<Article>> = _articlesResponse
-    private val sortByRecentFirst =
+    val sortByRecentFirst =
         Comparator { art1: Article, art2: Article -> (art2.creationTime - art1.creationTime).toInt() }
 
     fun loadArticles(jsonString: String) {
-        val listPersonType = object : TypeToken<List<Article>>() {}.type
-        val list: List<Article> = Gson().fromJson(jsonString, listPersonType)
+        val list = Gson().fromJson(jsonString, Array<Article>::class.java)
         _articlesResponse.postValue(list.sortedWith(sortByRecentFirst))
     }
 
