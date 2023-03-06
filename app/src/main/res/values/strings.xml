@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Carousell News</string>
+    <string name="recent">Recent</string>
+    <string name="popular">Popular</string>
+</resources>
