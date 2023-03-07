@@ -1,19 +1,28 @@
 package com.example.carousellnews.ui
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.carousellnews.JSONObjectProviderUtil
 import com.example.carousellnews.LiveDataTestUtil
 import com.example.carousellnews.models.Article
+import com.example.carousellnews.repository.JSONParser
 import com.google.gson.Gson
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 internal class CarousellNewsViewModelTest {
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var carousellNewsViewModel: CarousellNewsViewModel
 
     private var articlesJsonString: String? = null
     private var mockedArticleList = arrayOf<Article>()
+
+    private var jsonParser = mockk<JSONParser>()
 
     @Before
     fun setUp() {
@@ -21,7 +30,8 @@ internal class CarousellNewsViewModelTest {
         articlesJsonString = JSONObjectProviderUtil.getJsonString(fileName)
         mockedArticleList = Gson().fromJson(articlesJsonString, Array<Article>::class.java)
 
-        carousellNewsViewModel = CarousellNewsViewModel()
+        carousellNewsViewModel = CarousellNewsViewModel(jsonParser = jsonParser)
+        every { jsonParser.parseJsonString(articlesJsonString) } returns mockedArticleList
     }
 
     @Test
