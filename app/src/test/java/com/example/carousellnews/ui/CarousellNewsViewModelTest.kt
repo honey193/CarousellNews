@@ -3,12 +3,14 @@ package com.example.carousellnews.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.carousellnews.JSONObjectProviderUtil
 import com.example.carousellnews.LiveDataTestUtil
+import com.example.carousellnews.extensions.isSortedListAreEqual
 import com.example.carousellnews.models.Article
 import com.example.carousellnews.repository.JSONParser
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -59,6 +61,9 @@ internal class CarousellNewsViewModelTest {
             response.getOrNull(0)?.id,
             LiveDataTestUtil.getValue(carousellNewsViewModel.articlesResponse)?.getOrNull(0)?.id
         )
+        LiveDataTestUtil.getValue(carousellNewsViewModel.articlesResponse)?.let { liveList ->
+            assertTrue(response.map { it.id }.isSortedListAreEqual(liveList.map { it.id }))
+        }
     }
 
     @Test
@@ -78,5 +83,8 @@ internal class CarousellNewsViewModelTest {
             response.getOrNull(0)?.id,
             LiveDataTestUtil.getValue(carousellNewsViewModel.articlesResponse)?.getOrNull(0)?.id
         )
+        LiveDataTestUtil.getValue(carousellNewsViewModel.articlesResponse)?.let { liveList ->
+            assertTrue(response.map { it.id }.isSortedListAreEqual(liveList.map { it.id }))
+        }
     }
 }
